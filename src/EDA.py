@@ -16,8 +16,8 @@ from sklearn.metrics import mean_squared_error, r2_score
 sns.set(style="whitegrid")
 
 # Load data
-historical_data = pd.read_csv("data/durham_weather_data_last_365_days.csv")
-forecast_data = pd.read_csv("data/durham_weather_simulated_next_365_days.csv")
+historical_data = pd.read_csv("../data/durham_weather_data_last_365_days.csv")
+forecast_data = pd.read_csv("../data/durham_weather_simulated_next_365_days.csv")
 
 # Check missing values
 print("Missing values in historical data")
