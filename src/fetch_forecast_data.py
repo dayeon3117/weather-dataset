@@ -1,55 +1,56 @@
-# API key and base URL
+import pandas as pd
+import random
+from datetime import datetime, timedelta
+
+# API Key and Base URL (not used here but leaving it for reference)
 API_KEY = "abd882d5f30e477d91d45604242511"
 BASE_URL = "http://api.weatherapi.com/v1/history.json"
 
-# Function to get weather data for a specific date
-def get_weather(city, date):
-    params = {
-        "key": API_KEY,
-        "q": city,
-        "dt": date
+# Load last 365 days of weather data
+last_365_days_file = "durham_weather_data_last_365_days.csv"
+last_365_data = pd.read_csv(last_365_days_file)
+
+# Monthly average weather info for Durham, NC
+monthly_averages = {
+    "January": {"high": 10, "low": -3, "rain_days": 8},
+    "February": {"high": 12, "low": -2, "rain_days": 7},
+    "March": {"high": 17, "low": 2, "rain_days": 8},
+    "April": {"high": 22, "low": 7, "rain_days": 7},
+    "May": {"high": 26, "low": 12, "rain_days": 8},
+    "June": {"high": 30, "low": 17, "rain_days": 7},
+    "July": {"high": 32, "low": 20, "rain_days": 8},
+    "August": {"high": 31, "low": 19, "rain_days": 7},
+    "September": {"high": 27, "low": 15, "rain_days": 6},
+    "October": {"high": 22, "low": 8, "rain_days": 5},
+    "November": {"high": 17, "low": 3, "rain_days": 6},
+    "December": {"high": 12, "low": -1, "rain_days": 7},
+}
+
+# Simulate weather for one day
+def simulate_weather(date, month):
+    avg = monthly_averages[month]
+    temp = round(random.uniform(avg["low"], avg["high"]), 1)
+    humidity = random.randint(40, 80)
+    rain_chance = random.randint(1, 30)
+    precip = round(random.uniform(0, 20), 2) if rain_chance <= avg["rain_days"] else 0.0
+    return {
+        "date": date.strftime("%Y-%m-%d"),
+        "city": "Durham, North Carolina",
+        "temperature_c": temp,
+        "humidity": humidity,
+        "precipitation_mm": precip,
     }
-    response = requests.get(BASE_URL, params=params)
-    if response.status_code == 200:
-        data = response.json()
-        return {
-            "date": date,
-            "city": city,
-            "temperature_c": data["forecast"]["forecastday"][0]["day"]["avgtemp_c"],
-            "humidity": data["forecast"]["forecastday"][0]["day"]["avghumidity"],
-            "precipitation_mm": data["forecast"]["forecastday"][0]["day"]["totalprecip_mm"]
-        }
-    else:
-        print(f"Couldn't get data for {date}. Status: {response.status_code}")
-        return None
 
-# Collect weather data for a range of dates
-def get_weather_data(city, start_date, end_date):
-    current_date = start_date
-    all_weather = []
-    while current_date <= end_date:
-        print(f"Getting weather for {current_date}...")
-        weather = get_weather(city, current_date.strftime("%Y-%m-%d"))
-        if weather:
-            all_weather.append(weather)
-        current_date += timedelta(days=1)
-    return all_weather
+# Simulate the next 365 days of weather
+start_date = datetime.strptime(last_365_data["date"].max(), "%Y-%m-%d") + timedelta(days=1)
+simulated_weather = []
 
-# Main script
-if __name__ == "__main__":
-    # Define the city and date range
-    city = "Durham, North Carolina"
-    today = datetime.today()
-    last_year = today - timedelta(days=365)
+for i in range(365):
+    current_date = start_date + timedelta(days=i)
+    month_name = current_date.strftime("%B")
+    simulated_weather.append(simulate_weather(current_date, month_name))
 
-    # Fetch the weather data
-    print("Starting to get weather data...")
-    weather_data = get_weather_data(city, last_year, today)
-
-    # Save to CSV if we got any data
-    if len(weather_data) > 0:
-        df = pd.DataFrame(weather_data)
-        df.to_csv("durham_weather_data_last_365_days.csv", index=False)
-        print("Saved the weather data to 'durham_weather_data_last_365_days.csv'.")
-    else:
-        print("No weather data found.")
+# Save simulated data to CSV
+simulated_df = pd.DataFrame(simulated_weather)
+simulated_df.to_csv("durham_weather_simulated_next_365_days.csv", index=False)
+print("Simulated weather data saved to 'durham_weather_simulated_next_365_days.csv'")
