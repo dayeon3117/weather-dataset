@@ -10,7 +10,11 @@ BASE_URL = "http://api.weatherapi.com/v1/history.json"
 last_365_days_file = "durham_weather_data_last_365_days.csv"
 last_365_data = pd.read_csv(last_365_days_file)
 
+<<<<<<< HEAD
 # Monthly average weather info for Durham, NC
+=======
+# Monthly average weather info for Durham, NC according to NOAA
+>>>>>>> 5a8ace0 (work)
 monthly_averages = {
     "January": {"high": 10, "low": -3, "rain_days": 8},
     "February": {"high": 12, "low": -2, "rain_days": 7},
