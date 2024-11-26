@@ -115,7 +115,7 @@ The data for this project was sourced ethically:
 
 Biases and Limitations include:
 
-- Forecast Accuracy: The forecasted data is simulated and based on averages. While it follows realistic trends, it does not account for sudden, extreme weather events (e.g., hurricanes).
+- Forecast Accuracy: The forecasted data is simulated and based on averages. While it follows realistic trends, it does not account for sudden, extreme weather events (ex. hurricanes).
 - Geographic Limitation: The dataset focuses exclusively on Durham, NC, and may not generalize to other locations.
 
 Mitigations:
