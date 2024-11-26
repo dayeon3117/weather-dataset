@@ -59,7 +59,7 @@ A sample size of 365 days for each dataset (historical and forecasted) ensures a
 ## Statistical Power
 Power analysis ensures that we have enough data to detect meaningful differences between historical and forecasted weather patterns. With 365 days of data, I can confidently:
 
-- Detect statistically significant seasonal differences (e.g., summer vs. winter temperatures)
+- Detect statistically significant seasonal differences (ex. summer vs. winter temperatures)
 - Compare historical and simulated weather trends with enough data points to avoid p-hacking or misinterpretations
 
 ## Tools Used to Source Data
@@ -79,7 +79,7 @@ Key Findings:
 - Forecasted humidity is consistent but slightly lower on average.
 
 3) Precipitation Trends
-- Precipitation is sporadic, with historical data showing more pronounced spikes (e.g., September rain events)
+- Precipitation is sporadic, with historical data showing more pronounced spikes (ex. September rain events)
 - Forecasted precipitation trends are smoother due to modeling constraints.
 
 Statistical Analysis:
