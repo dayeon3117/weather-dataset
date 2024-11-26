@@ -1,64 +1,60 @@
-import requests
 import pandas as pd
+import random
 from datetime import datetime, timedelta
 
-# Step 1: Set up API key and base URL
-API_KEY = "abd882d5f30e477d91d45604242511"  # Replace with your WeatherAPI key
-BASE_URL = "http://api.weatherapi.com/v1/forecast.json"
+# API Key and Base URL (not used here but leaving it for reference)
+API_KEY = "abd882d5f30e477d91d45604242511"
+BASE_URL = "http://api.weatherapi.com/v1/history.json"
 
-# Step 2: Function to fetch forecasted weather data for a specific date
-def fetch_forecast_data(city, days=10):
-    params = {
-        "key": API_KEY,
-        "q": city,
-        "days": days
+# Load last 365 days of weather data
+last_365_days_file = "durham_weather_data_last_365_days.csv"
+last_365_data = pd.read_csv(last_365_days_file)
+
+<<<<<<< HEAD
+# Monthly average weather info for Durham, NC
+=======
+# Monthly average weather info for Durham, NC according to NOAA
+>>>>>>> 5a8ace0 (work)
+monthly_averages = {
+    "January": {"high": 10, "low": -3, "rain_days": 8},
+    "February": {"high": 12, "low": -2, "rain_days": 7},
+    "March": {"high": 17, "low": 2, "rain_days": 8},
+    "April": {"high": 22, "low": 7, "rain_days": 7},
+    "May": {"high": 26, "low": 12, "rain_days": 8},
+    "June": {"high": 30, "low": 17, "rain_days": 7},
+    "July": {"high": 32, "low": 20, "rain_days": 8},
+    "August": {"high": 31, "low": 19, "rain_days": 7},
+    "September": {"high": 27, "low": 15, "rain_days": 6},
+    "October": {"high": 22, "low": 8, "rain_days": 5},
+    "November": {"high": 17, "low": 3, "rain_days": 6},
+    "December": {"high": 12, "low": -1, "rain_days": 7},
+}
+
+# Simulate weather for one day
+def simulate_weather(date, month):
+    avg = monthly_averages[month]
+    temp = round(random.uniform(avg["low"], avg["high"]), 1)
+    humidity = random.randint(40, 80)
+    rain_chance = random.randint(1, 30)
+    precip = round(random.uniform(0, 20), 2) if rain_chance <= avg["rain_days"] else 0.0
+    return {
+        "date": date.strftime("%Y-%m-%d"),
+        "city": "Durham, North Carolina",
+        "temperature_c": temp,
+        "humidity": humidity,
+        "precipitation_mm": precip,
     }
-    response = requests.get(BASE_URL, params=params)
-    
-    if response.status_code == 200:
-        data = response.json()
-        forecast_data = []
-        for day in data["forecast"]["forecastday"]:
-            forecast_data.append({
-                "date": day["date"],
-                "city": city,
-                "temperature_c": day["day"]["avgtemp_c"],
-                "humidity": day["day"]["avghumidity"],
-                "precipitation_mm": day["day"]["totalprecip_mm"]
-            })
-        return forecast_data
-    else:
-        print(f"Failed to fetch forecast data. Status code: {response.status_code}")
-        return []
 
-# Step 3: Fetch forecasted data for the next 300 days
-def collect_forecast_data(city, total_days=300):
-    forecast_data = []
-    days_per_request = 10  # Maximum allowed forecast days per API call
-    current_date = datetime.today()
-    
-    while total_days > 0:
-        print(f"Fetching forecast data for next {min(days_per_request, total_days)} days starting {current_date}...")
-        data = fetch_forecast_data(city, days=min(days_per_request, total_days))
-        if data:
-            forecast_data.extend(data)
-        total_days -= days_per_request
-        current_date += timedelta(days=days_per_request)
-    
-    return forecast_data
+# Simulate the next 365 days of weather
+start_date = datetime.strptime(last_365_data["date"].max(), "%Y-%m-%d") + timedelta(days=1)
+simulated_weather = []
 
-# Step 4: Main script for fetching and saving forecast data
-if __name__ == "__main__":
-    city = "Durham, North Carolina"
-    total_days = 300  # Forecast for the next 300 days
+for i in range(365):
+    current_date = start_date + timedelta(days=i)
+    month_name = current_date.strftime("%B")
+    simulated_weather.append(simulate_weather(current_date, month_name))
 
-    print("Starting forecast data collection...")
-    forecast_weather_data = collect_forecast_data(city, total_days=total_days)
-    
-    # Save to CSV
-    if forecast_weather_data:
-        df_forecast = pd.DataFrame(forecast_weather_data)
-        df_forecast.to_csv("durham_weather_forecast_next_300_days.csv", index=False)
-        print("Forecast data saved to 'durham_weather_forecast_next_300_days.csv'.")
-    else:
-        print("No forecast data collected.")
+# Save simulated data to CSV
+simulated_df = pd.DataFrame(simulated_weather)
+simulated_df.to_csv("durham_weather_simulated_next_365_days.csv", index=False)
+print("Simulated weather data saved to 'durham_weather_simulated_next_365_days.csv'")
