@@ -9,9 +9,9 @@ Weather is one of the most critical factors influencing daily life, yet datasets
 
 This dataset includes:
 
-*Historical Data*: 365 days of historical weather data, including temperature (°C), precipitation (mm), and humidity (%).
+- *Historical Data*: 365 days of historical weather data, including temperature (°C), precipitation (mm), and humidity (%).
 
-*Forecast Data*: 365 days of weather forecasts with the same metrics.
+- *Forecast Data*: 365 days of weather forecasts with the same metrics.
 
 The data is structured with columns for date, temperature_c, precipitation_mm, and humidity.
 
@@ -63,17 +63,6 @@ Executive Summary
 The goal of this project is to create a comprehensive dataset of weather trends that combines past and forecasted data for Durham, NC. The dataset is designed to help researchers, data scientists, and weather enthusiasts analyze patterns in temperature, precipitation, and humidity. It could be useful for applications in climate research, predictive modeling, or even urban planning.
 
 Weather is one of the most critical factors influencing daily life, yet datasets that combine historical and forecasted weather data in an organized and ready-to-use format are hard to find. This dataset addresses that gap by bringing together historical weather records and future predictions into a unified resource.
-Description of Data
-
-This dataset includes:
-
-- Historical Data: 365 days of historical weather data, including temperature (°C), precipitation (mm), and humidity (%).
-- Forecast Data: 300 days of weather forecasts with the same metrics.
-
-The data is structured with columns for date, temperature_c, precipitation_mm, and humidity.
-
-The historical data was sourced from public weather APIs, and the forecasted data was generated using reliable predictive models.
-Power Analysis
 
 To make this dataset valuable, I needed enough data points to cover seasonal patterns and ensure year-round trends. Here's why the dataset size works:
 
